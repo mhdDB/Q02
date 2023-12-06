@@ -1,0 +1,43 @@
+2. Displaying details of students whose age is less than 20.
+
+db.details.aggregate([
+{ $match: { age: { $lt: 20 } } }
+]);
+
+3. Sorting the students based on age in ascending order.
+
+db.details.aggregate([
+{ $sort: { age: 1 } }
+]);
+
+4. Displaying details of a student having the largest age in the section – B
+
+db.details.aggregate([
+{ $match: { section: 'B' } },
+{ $sort: { age: -1 } },
+{ $limit: 1 }
+]);
+
+5. Displaying the total number of students in section ‘B’
+
+db.students.aggregate([
+{ $match: { section: "B" } },
+{ $group: { _id: null, totalStudents: { $sum: 1 } } }
+]);
+
+6. Displaying the total number of students in both the sections
+
+db.details.aggregate([
+{ $group: { _id: "$section", totalStudents: { $sum: 1 } } }
+]);
+
+7. Display the total number of students in both the sections and maximum age from both
+section
+
+db.details.aggregate([
+{ $group: { _id: "$section",
+totalStudents: { $sum: 1 },
+maxAge: { $max: "$age" }
+}
+}
+]);
